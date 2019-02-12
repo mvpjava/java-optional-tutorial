@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /*
   Java Optional Demo for ...
