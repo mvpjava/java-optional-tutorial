@@ -12,7 +12,7 @@ Blog Post: mvpjava.com
 - When not to use Optional
 
 - Imperative vs. Functional Style
-    - PART 1: ifPresentOrElse, map
+    - PART 1: isPresent, get, ifPresentOrElse, map
     - PART 2: orElse, orElseGet, or, orElseThrow, 
               List<Optional<T>>,
               flatMap, stream etc ..
