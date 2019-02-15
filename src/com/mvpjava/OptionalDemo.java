@@ -20,8 +20,8 @@ public class OptionalDemo {
         OptionalDemo demo = new OptionalDemo();
 //      Un-comment one at a time as per tutorial
 
-//        demo.theProblem();
-//          demo.theSolutionInTherory();
+        demo.theProblem();
+//        demo.theSolutionInTherory();
 //        demo.HowToCreateOptionals();
 //        demo.getValuesOutOfOptionalsUnguarded();
 //        demo.HowToRetrieveValuesFromOptionalSimpleImperative();
