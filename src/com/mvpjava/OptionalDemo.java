@@ -18,7 +18,7 @@ public class OptionalDemo {
 
     public static void main(String[] args) {
         OptionalDemo demo = new OptionalDemo();
-//      Un-comment one at a time like in YouTube tutorial
+//      Un-comment one at a time as per tutorial
 
 //        demo.theProblem();
 //        demo.theSolutionInTherory();
