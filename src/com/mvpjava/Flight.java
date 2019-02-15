@@ -18,14 +18,14 @@ public class Flight {
         return aircraftID;
     }
 
-    public Optional<Conflict> probeForOptionalConfict() {
+    public Optional<Conflict> probeForConflictReturningOptional() {
         conflict = this.probeAirSpace();
         return (conflict != null)
                 ? Optional.of(conflict)
                 : Optional.empty();
     }
 
-    public Conflict probeForConfictLegacyClassic() {
+    public Conflict probeForConfictPossiblyReturningNull() {
         conflict = this.probeAirSpace();
         return (conflict != null)
                 ? (conflict)

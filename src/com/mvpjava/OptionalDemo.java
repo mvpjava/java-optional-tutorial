@@ -3,7 +3,6 @@ package com.mvpjava;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 /*
@@ -21,21 +20,20 @@ public class OptionalDemo {
         OptionalDemo demo = new OptionalDemo();
 //      Un-comment one at a time like in YouTube tutorial
 
-        demo.theProblem();
+//        demo.theProblem();
 //        demo.theSolutionInTherory();
 //        demo.HowToCreateOptionals();
-//        demo.HowToRetrieveValuesFromOptionalSimpleImperative();
-//
 //        demo.getValuesOutOfOptionalsUnguarded();
+//        demo.HowToRetrieveValuesFromOptionalSimpleImperative();
 //        demo.optionalsFunctionalMap();
+
 //        demo.getOrElseAlternative();
 //        demo.getOrElseGetAlternative();
 //        demo.getOptionalOrDefaultOptional();
 //        demo.getOrElseThrowAlternative();
 //
-//        demo.listOfOptionalInt_boxingOverhead();
-//        demo.listOfOptionalIntSpecialization();
-//        demo.listOfOptionalConflictFlatMap();
+//        demo.listOfOptionals();
+//        demo.listOfOptionalStreamFlatMap();
     }
 
     void theProblem() {
@@ -46,7 +44,7 @@ public class OptionalDemo {
         int requestingFlightLevel = 36000;
 
         if (actualFlightLevel != requestingFlightLevel) {
-            Conflict conflict = flight.probeForConfictLegacyClassic();
+            Conflict conflict = flight.probeForConfictPossiblyReturningNull();
             sendToAllDistributedApplications(conflict);
         }
     }
@@ -58,7 +56,7 @@ public class OptionalDemo {
         flight.setFlightLevel(actualFlightLevel); //current Flight Level (FL)
 
         if (actualFlightLevel != requestingFlightLevel) {
-            Optional<Conflict> conflict = flight.probeForOptionalConfict();
+            Optional<Conflict> conflict = flight.probeForConflictReturningOptional();
             //commented out to show that cant pass null by accident anymore
             //sendToAllDistributedApplications(conflict);
         }
@@ -88,13 +86,13 @@ public class OptionalDemo {
         //DO NOT EVER DO THIS, defeats the entire purpose!!!
         //Optional.of(null);
     }
-
+    
     /*
      Bad because using Optional.get() without checking if first value present.
      Might be ok, might not. your taking a chance
      */
     void getValuesOutOfOptionalsUnguarded() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict(); //random conflict returned
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional(); //random conflict returned
         //try/catch from demo sake
         try {
             Conflict conflict = optionalConflict.get();
@@ -104,14 +102,13 @@ public class OptionalDemo {
             System.out.println("Un-guarded get()...got a NoSuchElementException exception!");
         }
     }
-
     /*
     Without use of Optional, written in the classical if/else == null way.
     versus entry level Optonal, imperative way
      */
     void HowToRetrieveValuesFromOptionalSimpleImperative() {
         //simple, non-Optional way
-        Conflict conflict = flight.probeForConfictLegacyClassic();
+        Conflict conflict = flight.probeForConfictPossiblyReturningNull();
         if (conflict != null) {
             System.out.println("Conflict detected: " + conflict.getConflictId());
         } else {
@@ -119,14 +116,14 @@ public class OptionalDemo {
         }
 
         //versus Optional - imperative way
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();
         if (optionalConflict.isPresent()) {
             System.out.println("Conflict id: " + optionalConflict.get());
         } else {
             System.out.println("missing Conflict id");
         }
     }
-
+    
     /* Now using a function style of programming. The map method
       extracts the value of the Optional (if present) as per the 
       mapper function (lambda/method reference in the case below)and return 
@@ -140,19 +137,21 @@ public class OptionalDemo {
     Note: if you don't care for "Else" then just use the ifPresent​(Consumer<? super T> action)
      */
     void optionalsFunctionalMap() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();
         optionalConflict
                 .map(Conflict::getConflictId)
                 .ifPresentOrElse(System.out::println,
                         () -> System.out.println("No Conflicts detected"));
     }
+    
+    //END OF PART 1
 
     /* 
       .orElse() ALWAYS gets invoked, even if Optional is present. 
       Possible performance overhead ..maybe, depends on what your creating.
      */
     Conflict getOrElseAlternative() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();
         Conflict conflict = optionalConflict.orElse(getDefaultConflict());
 
         System.out.println("orElse conflict id: " + conflict.getConflictId());
@@ -164,7 +163,7 @@ public class OptionalDemo {
        Great for returning a default value
      */
     Conflict getOrElseGetAlternative() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();
         Conflict conflict = optionalConflict.orElseGet(() -> getDefaultConflict());
 
         System.out.println("orElseGet conflict id: " + conflict.getConflictId());
@@ -178,7 +177,7 @@ public class OptionalDemo {
       Great for returning a default Optional
      */
     Optional<Conflict> getOptionalOrDefaultOptional() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();//random Conflict
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();//random Conflict
         return optionalConflict.or(() -> Optional.of(getDefaultConflict()));
     }
 
@@ -189,45 +188,26 @@ public class OptionalDemo {
        NoSuchElementException if Optional is empty - since Java 10
      */
     Conflict getOrElseThrowAlternative() {
-        Optional<Conflict> optionalConflict = flight.probeForOptionalConfict();//random Conflict
+        Optional<Conflict> optionalConflict = flight.probeForConflictReturningOptional();//random Conflict
         return optionalConflict.orElseThrow(NoConflictException::new); //might throw, random!
     }
 
-    /*
-        Do not use Optional<Integer> since we have 2 layers of indirection here
-        boxing/unboxing and put/get for Optional - inefficient
-     */
-    void listOfOptionalInt_boxingOverhead() {
-        Optional<Integer> ssr1 = Optional.of(1234);
-        Optional<Integer> ssr2 = Optional.empty();
-        Optional<Integer> ssr3 = Optional.of(4531);
+   /*
+      List of Optional<Conflict>
+    */
+    void listOfOptionals() {
+        Optional<Conflict> optConflict1 = Optional.of(new Conflict(1));
+        Optional<Conflict> optConflict2 = Optional.empty();
+        Optional<Conflict> optConflict3 = Optional.of(new Conflict(2));
 
-        List<Optional<Integer>> listOptionalSSRCodes = List.of(ssr1, ssr2, ssr3);
-        List<Integer> SSRCodesList = listOptionalSSRCodes.stream()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
-
-        SSRCodesList.forEach(System.out::println);
-    }
-
-    /*
-      With specialization Clsas OptionalInt ..improved readability
-      BUT missing some methods like map, flatMap etc ..
-     */
-    void listOfOptionalIntSpecialization() {
-        OptionalInt ssr1 = OptionalInt.of(1234);
-        OptionalInt ssr2 = OptionalInt.empty();
-        OptionalInt ssr3 = OptionalInt.of(4531);
-
-        List<OptionalInt> listOptionalSSRCodes = List.of(ssr1, ssr2, ssr3);
-        List<Integer> SSRCodesList
-                = listOptionalSSRCodes.stream()
-                        .filter(OptionalInt::isPresent)
-                        .map(OptionalInt::getAsInt)
+        List<Optional<Conflict>> listOptConflicts = List.of(optConflict1, optConflict2, optConflict3);
+        List<Conflict> conflicts
+                = listOptConflicts.stream()
+                        .filter(Optional::isPresent)
+                        .map(Optional::get)
                         .collect(Collectors.toList());
 
-        SSRCodesList.forEach(System.out::println);
+        conflicts.forEach(System.out::println);
     }
 
     /*
@@ -244,7 +224,7 @@ public class OptionalDemo {
                 thus replacing isPresent/Get
             - creates an empty Stream<> if Optional value is empty
      */
-    void listOfOptionalConflictFlatMap() {
+    void listOfOptionalStreamFlatMap() {
         Conflict nullConflict = null;
         Optional<Conflict> optionalc1 = Optional.empty();
         Optional<Conflict> optionalc2 = Optional.of(new Conflict());
@@ -255,7 +235,6 @@ public class OptionalDemo {
         List<Conflict> actualConflicts
                 = listOfOptionalConflicts.stream() //Stream<Optional<Conflict>>
                         .flatMap(Optional::stream) //Stream<Conflict>
-                        //.filter((c) -> (c.getConflictId() != 0))
                         .collect(Collectors.toList());
 
         actualConflicts.forEach(System.out::println);
@@ -268,7 +247,7 @@ public class OptionalDemo {
 
     private void sendToAllDistributedApplications(Conflict conflict) {
         //stub just to drive point home
-        conflict.getConflictId(); //null?
+        conflict.getConflictId(); //null? possible yes!
     }
 
     class NoConflictException extends RuntimeException {
