@@ -20,12 +20,12 @@ public class OptionalDemo {
         OptionalDemo demo = new OptionalDemo();
 //      Un-comment one at a time as per tutorial
 
-        demo.theProblem();
+//        demo.theProblem();
 //        demo.theSolutionInTherory();
 //        demo.HowToCreateOptionals();
 //        demo.getValuesOutOfOptionalsUnguarded();
 //        demo.HowToRetrieveValuesFromOptionalSimpleImperative();
-//        demo.optionalsFunctionalMap();
+        demo.optionalsFunctionalMap();
 
 //        demo.getOrElseAlternative();
 //        demo.getOrElseGetAlternative();
