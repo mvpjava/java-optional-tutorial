@@ -1,4 +1,5 @@
 Java Optional NullPointerException Killer?
+Blog Post: mvpjava.com
 ==========================================
 - What Problem are we trying to solve?
 
@@ -6,8 +7,14 @@ Java Optional NullPointerException Killer?
 
 - How to create/retrieve an Optional value
 
-- Imperative vs. Functional Style
-    - various examples using ifPresentOrElse, 
-      orElseGet, or, map, flatMap, stream etc ..
-
 - Best place to use Java Optional (recommendation)
+
+- When not to use Optional
+
+- Imperative vs. Functional Style
+    - PART 1: ifPresentOrElse, map
+    - PART 2: orElse, orElseGet, or, orElseThrow, 
+              List<Optional<T>>,
+              flatMap, stream etc ..
+
+

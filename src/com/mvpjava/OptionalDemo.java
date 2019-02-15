@@ -21,7 +21,7 @@ public class OptionalDemo {
 //      Un-comment one at a time as per tutorial
 
 //        demo.theProblem();
-//        demo.theSolutionInTherory();
+//          demo.theSolutionInTherory();
 //        demo.HowToCreateOptionals();
 //        demo.getValuesOutOfOptionalsUnguarded();
 //        demo.HowToRetrieveValuesFromOptionalSimpleImperative();

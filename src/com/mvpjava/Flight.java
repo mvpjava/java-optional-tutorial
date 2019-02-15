@@ -8,7 +8,6 @@ public class Flight {
     private final String aircraftID;
     private int flightLevel;
     private Conflict conflict;
-    private final Conflict NULL_CONFLICT = new Conflict();
 
     public Flight(String flightID) {
         this.aircraftID = flightID;
