@@ -12,3 +12,19 @@ YouTube link: https://youtu.be/3IzvmbOwCjg
 Blog Post
 Title: Java Optional, NullPointerException Killer? 
 http://mvpjava.com/java-optional/
+
+=====================================================
+
+Subscribe to MVP Java ...
+
+https://www.youtube.com/c/MVPJava?sub_confirmation=1
+
+Follow me ...
+
+Website  : http://www.mvpjava.com
+
+Facebook : https://www.facebook.com/mvpjava
+
+Twitter  : https://twitter.com/mvpjava
+
+DockerHub: https://hub.docker.com/?namespace=mvpjava
